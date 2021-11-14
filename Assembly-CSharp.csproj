@@ -64,10 +64,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ChangeColor.cs" />
     <Compile Include="Assets\FollowPlayer.cs" />
     <Compile Include="Assets\KillMinnow.cs" />
     <Compile Include="Assets\Movement.cs" />
     <Compile Include="Assets\PursuePlayer.cs" />
+    <Compile Include="Assets\RandomMovement.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>/Users/zsolice/Documents/Unity Projects/Shark and Minnow/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>

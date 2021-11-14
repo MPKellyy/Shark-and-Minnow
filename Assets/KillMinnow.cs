@@ -10,6 +10,7 @@ public class KillMinnow : MonoBehaviour
         
     }
 
+
     // Update is called once per frame
     void Update()
     {
@@ -18,11 +19,27 @@ public class KillMinnow : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //If cabbage has entered player, deleted player
-        if (other.transform.gameObject.name == "Player Fish")
+        //This ensures only the Player Fish can eat and get eaten
+        if(other.transform.gameObject.name == "Player Fish")
         {
-            Destroy(other.transform.gameObject);
-            Application.Quit();
+            float otherVolume = other.transform.gameObject.transform.localScale.x * other.transform.gameObject.transform.localScale.y * other.transform.gameObject.transform.localScale.z;
+            float thisVolume = this.transform.localScale.x * this.transform.localScale.y * this.transform.localScale.z;
+
+
+            //If cabbage has entered player, deleted player
+            if (thisVolume >= otherVolume)
+            {
+                Destroy(other.transform.gameObject);
+            }
+            else
+            {
+                Vector3 otherScale = other.transform.gameObject.transform.localScale;
+                otherScale.x += 0.2f;
+                otherScale.y += 0.2f;
+                otherScale.z += 0.2f;
+                other.gameObject.transform.localScale = otherScale;
+                Destroy(this.gameObject);
+            }
         }
     }
 

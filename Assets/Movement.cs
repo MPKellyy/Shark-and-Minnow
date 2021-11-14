@@ -24,6 +24,7 @@ public class Movement : MonoBehaviour
         right = false;
 
 
+
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             Vector3 position = this.transform.position;
