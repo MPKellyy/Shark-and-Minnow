@@ -35,8 +35,8 @@ public class SpawnLilyPads : MonoBehaviour
             locallilypad = Instantiate<GameObject>(lilypad);
             x = Random.value;       // The lily pad's position on the x-axis.
             y = Random.value;       // The lily pad's position on the y-axis.
-            scale = Random.value;
-            
+            scale = Random.value;   // Used to affect the lily pad's scale.
+
             // Adjust the float values accordingly.
             x = (x * (30 + 45)) - 45;
             y = (y * (55 + 20)) - 20;

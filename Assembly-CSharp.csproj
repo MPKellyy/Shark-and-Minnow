@@ -66,15 +66,19 @@
   <ItemGroup>
     <Compile Include="Assets\AnimateSwimming.cs" />
     <Compile Include="Assets\ChangeColor.cs" />
+    <Compile Include="Assets\ConsumeFish.cs" />
     <Compile Include="Assets\ConsumePellet.cs" />
     <Compile Include="Assets\FollowPlayer.cs" />
+    <Compile Include="Assets\HelpScreen.cs" />
+    <Compile Include="Assets\KeyRandomMovement.cs" />
     <Compile Include="Assets\KillMinnow.cs" />
     <Compile Include="Assets\Movement.cs" />
     <Compile Include="Assets\PursuePlayer.cs" />
     <Compile Include="Assets\RandomMovement.cs" />
-    <Compile Include="Assets\Scripts\Spawning Scripts\SpawnKeys.cs" />
     <Compile Include="Assets\SoundPlayer.cs" />
+    <Compile Include="Assets\SpawnKeys.cs" />
     <Compile Include="Assets\SpawnLilyPads.cs" />
+    <Compile Include="Assets\SpawnNPCFish.cs" />
     <Compile Include="Assets\SpawnPellets.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>/Users/zsolice/Documents/Unity Projects/Shark and Minnow/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

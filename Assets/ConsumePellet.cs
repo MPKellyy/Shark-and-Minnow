@@ -24,9 +24,9 @@ public class ConsumePellet : MonoBehaviour
         if (other.transform.gameObject.name == "Player Fish")
         {
             Vector3 otherScale = other.transform.gameObject.transform.localScale;
-            otherScale.x += 0.05f;
-            otherScale.y += 0.05f;
-            otherScale.z += 0.05f;
+            otherScale.x += 0.025f;
+            otherScale.y += 0.025f;
+            otherScale.z += 0.025f;
             other.gameObject.transform.localScale = otherScale;
             eatSoundSource.Play();
             Destroy(this.gameObject);
