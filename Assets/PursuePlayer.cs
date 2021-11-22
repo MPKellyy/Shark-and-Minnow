@@ -4,51 +4,49 @@ using UnityEngine;
 
 public class PursuePlayer : MonoBehaviour
 {
-    Queue playerLocations;
-    bool cooldown;
-    float roundCounter;
-    float timetracker;
-    bool peakSpeed;
-    Vector3 playerPos;
-    Vector3 previousPos;
-    bool playerAlive;
-    (Vector3, Vector3) playerSave;
-    int doublePace;
-    GameObject player;
-    int doublePaceTracker;
+    Queue playerLocations;//Queue used to store player locations
+    float timeTracker;//Used to keep track of elapsed time in game
+    public float timeUntilSwitch;//Dictates when how much time until shark switches from normal speed to double speed
+    Vector3 playerPos;//Stores players position in the current frame
+    Vector3 previousPos;//Stores players position in a the previous frame
+    bool playerAlive;//Keeps track of if player is still alive in game
+    (Vector3, Vector3) playerSave;//Stores player position in Item1, stores player rotation in Item2
+    int varyMovement;//Variable used to randomly affect shark movement speed
+    GameObject player;//Used to hold instance of a player object
+    int MovementMode;//Decides speed of shark movement, -1 is normal speed, 0 is double speed
 
     // Start is called before the first frame update
     void Start()
     {
+        //Creating a queue to store player locations
         playerLocations = new Queue();
-        cooldown = false;
-        peakSpeed = false;
-        roundCounter = 1;
-        timetracker = 0.0f;
-        playerAlive = true;
-        doublePaceTracker = -1;
 
+        //Setting up variables
+        timeTracker = 0.0f;
+        playerAlive = true;
+        MovementMode = -1;//Shark speed set to normal
+
+        //Finding player in game space
          player = GameObject.Find("Player Fish");
 
+        //Filling queue with coordinates between shark and player on spawn
         for (float y = this.gameObject.transform.position.y; y < player.transform.position.y; y += 0.1f)
         {
             playerSave = (new Vector3(0.0f, y, 0.0f), new Vector3(-90.0f, 0.0f, 0.0f));
             playerLocations.Enqueue(playerSave);
         }
 
-
-        print("Level 1");
-
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        //Checking if player is alive
         player = GameObject.Find("Player Fish");
 
-        if (player == null)
+        if (player == null)//If player not found, player is dead
             playerAlive = false;
-        else
+        else//Save player's position and rotation in the game space
         {
             previousPos = playerPos;
             playerPos = player.transform.position;
@@ -56,87 +54,75 @@ public class PursuePlayer : MonoBehaviour
         }
 
 
-
-
+        //Save the current position only if player is not standing still (keeps shark constantly moving)
         if(previousPos!=playerPos && playerAlive)
         {
             playerLocations.Enqueue(playerSave);
         }
 
 
-        if(peakSpeed && playerLocations.Count != 0 && playerAlive)
+        //While there are still locations to go to and the player is alive
+        if(playerLocations.Count != 0 && playerAlive)
         {
-            if(doublePaceTracker != 0)
+            //Checking if shark is not in double speed (in other words, if its currently in normal speed)
+            if(MovementMode != 0)
             {
-                timetracker += 0.01f;
+                //Update the time tracker
+                timeTracker += 0.01f;
 
-                if (timetracker >= 10.0f)
+                //Once timeTracker reaches a certain threshold, switch to double speed
+                if (timeTracker >= timeUntilSwitch)
                 {
-                    doublePaceTracker = 0;
-                    print("Level 3");
+                    MovementMode = 0;
+                    print("Double");
                 }
             }
 
-            //Switch?
 
-            playerSave = ((Vector3, Vector3)) playerLocations.Dequeue();
-
-
-            //This doubles shark speed randomly after a certain amount of time
-            doublePace = (int)(UnityEngine.Random.value + 0.5f);//0 = double, 1 = single pace
-
-
-            if (playerLocations.Count != 0 && doublePace == doublePaceTracker) {
-                playerSave = ((Vector3, Vector3))playerLocations.Dequeue();
-                print("Double");
-            }
-            else
+            //Reading current movement mode
+            switch(MovementMode)
             {
-                print("Single");
+                //Case for double speed
+                case 0:
+                    //Garuntees at least one movement per frame
+                    playerSave = ((Vector3, Vector3))playerLocations.Dequeue();
+
+
+                    //This randomly doubles shark movement per frame. Allows player more time to escape from it, makes movement less robotic
+                    varyMovement = (int)(UnityEngine.Random.value + 0.5f);//0 = double movement, 1 = single pace
+
+                    //If queue is not empty and varyMovement wants to double the pace
+                    if (playerLocations.Count != 0 && (UnityEngine.Random.value) < 0.10f)
+                    {
+                        //Load an additional position
+                        playerSave = ((Vector3, Vector3))playerLocations.Dequeue();
+                    }
+
+                    //Update position
+                    this.transform.position = playerSave.Item1;
+                    this.transform.eulerAngles = playerSave.Item2;
+
+                    break;
+
+                //Case for normal speed
+                case -1:
+                    //This randomly slows shark movement once per frame. Allows player more time to escape from it, makes movement less robotic
+
+
+                    //If queue is not empty and varyMovement wants to move one pace
+                    if (playerLocations.Count != 0 && (UnityEngine.Random.value) > 0.05f)
+                    {
+                        //Load an additional position
+                        playerSave = ((Vector3, Vector3))playerLocations.Dequeue();
+
+                        //Only update position if moving a single position (transforming stays in this if statement)
+                        this.transform.position = playerSave.Item1;
+                        this.transform.eulerAngles = playerSave.Item2;
+                    }
+
+                    break;
             }
-
-            //Put this transform logic in a switch statement for both cases
-            this.transform.position = playerSave.Item1;
-            this.transform.eulerAngles = playerSave.Item2;
-        }
-        else if (playerLocations.Count != 0 && !cooldown && playerAlive) {
-            playerSave = ((Vector3, Vector3))playerLocations.Dequeue();
-            this.transform.position = playerSave.Item1;
-            this.transform.eulerAngles = playerSave.Item2;
-            cooldown = true;
-            timetracker += 0.01f;
-
-
-            if(timetracker >= 2.0f)
-            {
-                timetracker = 0.0f;
-                roundCounter--;
-                print(playerLocations.Count);
-            }
-
-            SpeedCheck();
-        }
-
-           
-
-    }
-
-    void ResetCooldown() {
-        cooldown = false;
-    }
-
-    void SpeedCheck()
-    {
-        if (roundCounter < 1)
-        {
-            peakSpeed = true;
-            print("Level 2");
-        }
-        else
-        {
-            Invoke("ResetCooldown", 0.05f);
         }
     }
-
 
 }
