@@ -71,8 +71,11 @@
     <Compile Include="Assets\FollowPlayer.cs" />
     <Compile Include="Assets\HelpScreen.cs" />
     <Compile Include="Assets\KeyRandomMovement.cs" />
+    <Compile Include="Assets\KeyTrackerFunctionality.cs" />
+    <Compile Include="Assets\KeyTrackerOrientation.cs" />
     <Compile Include="Assets\KillMinnow.cs" />
     <Compile Include="Assets\Movement.cs" />
+    <Compile Include="Assets\PromptOrientation.cs" />
     <Compile Include="Assets\PursuePlayer.cs" />
     <Compile Include="Assets\RandomMovement.cs" />
     <Compile Include="Assets\SoundPlayer.cs" />

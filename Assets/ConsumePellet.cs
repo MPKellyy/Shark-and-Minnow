@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ConsumePellet : MonoBehaviour
 {
-    public GameObject eatSoundHolder;
-    private AudioSource eatSoundSource;
+    private AudioSource soundSource;//Saves incoming sound effect
+
     // Start is called before the first frame update
     void Start()
     {
-        eatSoundSource = eatSoundHolder.GetComponent<AudioSource>();
+        soundSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -20,16 +20,23 @@ public class ConsumePellet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //This ensures only the Player Fish can eat and get eaten
+        //This ensures only the Player Fish can eat pellet
         if (other.transform.gameObject.name == "Player Fish")
         {
+            //Eat pellet
             Vector3 otherScale = other.transform.gameObject.transform.localScale;
+            soundSource.Play();
             otherScale.x += 0.025f;
             otherScale.y += 0.025f;
             otherScale.z += 0.025f;
             other.gameObject.transform.localScale = otherScale;
-            eatSoundSource.Play();
-            Destroy(this.gameObject);
+
+            Invoke("Eaten", 0.1f);
         }
+    }
+
+    void Eaten()
+    {
+        Destroy(this.gameObject);
     }
 }

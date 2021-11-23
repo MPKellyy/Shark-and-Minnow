@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    bool up;
-    bool down;
-    bool left;
-    bool right;
+    bool up;//Case for up move
+    bool down;//Case for down move
+    bool left;//Case for left move
+    bool right;//Case for right move
 
     // Start is called before the first frame update
     void Start()
@@ -18,35 +18,37 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+
+        //Resetting move cases
         up = false;
         down = false;
         left = false;
         right = false;
 
 
-
-        if (Input.GetKey(KeyCode.LeftArrow))
+        //Acquiring user input, also checking if player has reached a boundary in the world space
+        if (Input.GetKey(KeyCode.LeftArrow) && this.transform.position.x > -50.3f)//Left boundary
         {
             Vector3 position = this.transform.position;
             position.x-= 0.1f;
             this.transform.position = position;
             left = true;
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow) && this.transform.position.x < 40.1f)//Right boundary
         {
             Vector3 position = this.transform.position;
             position.x+= 0.1f;
             this.transform.position = position;
             right = true;
         }
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow) && this.transform.position.y < 64.5f)//Up boundary
         {
             Vector3 position = this.transform.position;
             position.y+= 0.1f;
             this.transform.position = position;
             up = true;
         }
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow) && this.transform.position.y > -27.8f)//Down boundary
         {
             Vector3 position = this.transform.position;
             position.y-= 0.1f;
@@ -54,9 +56,11 @@ public class Movement : MonoBehaviour
             down = true;
         }
 
+        //Setting rotation of player
         SetPosition();
     }
 
+    //Adjusts rotation of player according to movement in game space
     void SetPosition()
     {
         if (up && right)

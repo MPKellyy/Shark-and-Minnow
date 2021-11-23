@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class ConsumeFish : MonoBehaviour
 {
-    public GameObject eatSoundHolder;
-    private AudioSource eatSoundSource;
+    public GameObject eatSoundHolder;//Incoming sound effect
+    private AudioSource eatSoundSource;//Variable that holds the incoming sound
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,10 +24,11 @@ public class ConsumeFish : MonoBehaviour
         //This ensures only the Player Fish can eat and get eaten
         if (other.transform.gameObject.name == "Player Fish")
         {
+            //Calculating volume of player and NPC fish (or shark)
             float otherVolume = other.transform.gameObject.transform.localScale.x * other.transform.gameObject.transform.localScale.y * other.transform.gameObject.transform.localScale.z;
             float thisVolume = this.transform.localScale.x * this.transform.localScale.y * this.transform.localScale.z;
 
-            // NPC fish is only eaten if it is smaller than the player fish.
+            // NPC fish (or shark) is only eaten if it is smaller than the player fish.
             if (otherVolume > thisVolume)
            {
                 Vector3 otherScale = other.transform.gameObject.transform.localScale;
@@ -34,6 +36,8 @@ public class ConsumeFish : MonoBehaviour
                 otherScale.y += 0.05f;
                 otherScale.z += 0.05f;
                 other.gameObject.transform.localScale = otherScale;
+
+                //Play sound effect
                 eatSoundSource.Play();
                 Destroy(this.gameObject);
            }

@@ -4,9 +4,25 @@ using UnityEngine;
 
 public class KeyRandomMovement : MonoBehaviour
 {
-    int moveValue;
-    bool cooldown;
-    Vector3 position;
+    int moveValue;//Determines which direction object will move
+    bool cooldown;//Allows object movement to change over specfifed amount of time
+    Vector3 position;//Saves object position
+    bool pastLeft;//Left barrier check
+    bool pastRight;//Right barrier check
+    bool pastUp;//Up barrier check
+    bool pastDown;//Down barrier check
+    //Values for movement direction
+    enum movementMode
+    {
+        Up,         // 0
+        Down,       // 1
+        Left,       // 2
+        Right,      // 3
+        UpRight,    // 4
+        UpLeft,     // 5
+        DownLeft,   // 6
+        DownRight   // 7
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -18,46 +34,83 @@ public class KeyRandomMovement : MonoBehaviour
     // Code same as RandomMovement, except modified to make the key move faster.
     void FixedUpdate()
     {
+        //Generating a movement mode
         if (!cooldown)
             moveValue = (int)((UnityEngine.Random.value * (0.7999f)) * 10.0f);
-        //up 0
-        //down 1
-        //left 2
-        //right 3
-        //up right 4
-        //up left 5
-        //down left 6
-        //down right 7
 
+
+        //Checking if object posiition is past the defined barriers in-game
+        position = this.transform.position;
+        pastLeft = position.x <= -50.3f;
+        pastRight = position.x >= 40.1f;
+        pastUp = position.y >= 64.5f;
+        pastDown = position.y <= -27.8f;
+
+        if (moveValue == (int)movementMode.Left && pastLeft)//If moving left past left barrier, switch to right movement
+        {
+            moveValue = (int)movementMode.Right;
+        }
+        if (moveValue == (int)movementMode.Right && pastRight)//If moving right past right barrier, switch to left movement
+        {
+            moveValue = (int)movementMode.Left;
+        }
+        if (moveValue == (int)movementMode.Up && pastUp)//If moving up past up barrier, switch to down movement
+        {
+            moveValue = (int)movementMode.Down;
+        }
+        if (moveValue == (int)movementMode.Down && pastDown)//If moving down past down barrier, switch to up movement
+        {
+            moveValue = (int)movementMode.Up;
+        }
+        if (moveValue == (int)movementMode.UpLeft && (pastLeft || pastUp))//If moving up-left past left barrier or up barrier, switch to down-right movement
+        {
+            moveValue = (int)movementMode.DownRight;
+        }
+        if (moveValue == (int)movementMode.UpRight && (pastRight || pastUp))//If moving up-right past right barrier or up barrier, switch to down-left movement
+        {
+            moveValue = (int)movementMode.DownLeft;
+        }
+        if (moveValue == (int)movementMode.DownLeft && (pastLeft || pastDown))//If moving down-left past left barrier or down barrier, switch to up-right movement
+        {
+            moveValue = (int)movementMode.UpRight;
+        }
+
+        if (moveValue == (int)movementMode.DownRight && (pastRight || pastDown))//If moving down-right past right barrier or down barrier, switch to up-left movement
+        {
+            moveValue = (int)movementMode.UpLeft;
+        }
+
+
+        //Updates object position and rotation according to movement mode
         switch (moveValue)
         {
             //Up
-            case 0:
+            case (int)movementMode.Up:
                 position = this.transform.position;
                 position.y += 0.09f;
                 this.transform.position = position;
                 break;
             //Down
-            case 1:
+            case (int)movementMode.Down:
                 position = this.transform.position;
                 position.y -= 0.09f;
                 this.transform.position = position;
 
                 break;
             //Left
-            case 2:
+            case (int)movementMode.Left:
                 position = this.transform.position;
                 position.x -= 0.09f;
                 this.transform.position = position;
                 break;
             //Right
-            case 3:
+            case (int)movementMode.Right:
                 position = this.transform.position;
                 position.x += 0.09f;
                 this.transform.position = position;
                 break;
             //Up Right
-            case 4:
+            case (int)movementMode.UpRight:
                 position = this.transform.position;
                 position.y += 0.09f;
                 this.transform.position = position;
@@ -66,7 +119,7 @@ public class KeyRandomMovement : MonoBehaviour
                 this.transform.position = position;
                 break;
             //Up Left
-            case 5:
+            case (int)movementMode.UpLeft:
                 position = this.transform.position;
                 position.y += 0.09f;
                 this.transform.position = position;
@@ -75,7 +128,7 @@ public class KeyRandomMovement : MonoBehaviour
                 this.transform.position = position;
                 break;
             //Down Left
-            case 6:
+            case (int)movementMode.DownLeft:
                 position = this.transform.position;
                 position.y -= 0.09f;
                 this.transform.position = position;
@@ -84,7 +137,7 @@ public class KeyRandomMovement : MonoBehaviour
                 this.transform.position = position;
                 break;
             //Down Right
-            case 7:
+            case (int)movementMode.DownRight:
                 position = this.transform.position;
                 position.y -= 0.09f;
                 this.transform.position = position;
@@ -94,7 +147,7 @@ public class KeyRandomMovement : MonoBehaviour
                 break;
         }
 
-
+        //Allows object to switch movement every 3 seconds (unless it hits a barrier)
         if (!cooldown)
         {
             cooldown = true;
