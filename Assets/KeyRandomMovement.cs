@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/**
+ * Script Name: KeyRandomMovement
+ * Team: Mike, Bryant, Caleb
+ * Description: Like the RandomMovement script for NPC fish, but slightly altered for keys.
+ * Ideally, the keys move faster than the NPC fish so that they are harder to catch.
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +19,7 @@ public class KeyRandomMovement : MonoBehaviour
     bool pastUp;//Up barrier check
     bool pastDown;//Down barrier check
     //Values for movement direction
-    enum movementMode
+    enum MovementMode
     {
         Up,         // 0
         Down,       // 1
@@ -46,38 +53,38 @@ public class KeyRandomMovement : MonoBehaviour
         pastUp = position.y >= 64.5f;
         pastDown = position.y <= -27.8f;
 
-        if (moveValue == (int)movementMode.Left && pastLeft)//If moving left past left barrier, switch to right movement
+        if (moveValue == (int)MovementMode.Left && pastLeft)//If moving left past left barrier, switch to right movement
         {
-            moveValue = (int)movementMode.Right;
+            moveValue = (int)MovementMode.Right;
         }
-        if (moveValue == (int)movementMode.Right && pastRight)//If moving right past right barrier, switch to left movement
+        if (moveValue == (int)MovementMode.Right && pastRight)//If moving right past right barrier, switch to left movement
         {
-            moveValue = (int)movementMode.Left;
+            moveValue = (int)MovementMode.Left;
         }
-        if (moveValue == (int)movementMode.Up && pastUp)//If moving up past up barrier, switch to down movement
+        if (moveValue == (int)MovementMode.Up && pastUp)//If moving up past up barrier, switch to down movement
         {
-            moveValue = (int)movementMode.Down;
+            moveValue = (int)MovementMode.Down;
         }
-        if (moveValue == (int)movementMode.Down && pastDown)//If moving down past down barrier, switch to up movement
+        if (moveValue == (int)MovementMode.Down && pastDown)//If moving down past down barrier, switch to up movement
         {
-            moveValue = (int)movementMode.Up;
+            moveValue = (int)MovementMode.Up;
         }
-        if (moveValue == (int)movementMode.UpLeft && (pastLeft || pastUp))//If moving up-left past left barrier or up barrier, switch to down-right movement
+        if (moveValue == (int)MovementMode.UpLeft && (pastLeft || pastUp))//If moving up-left past left barrier or up barrier, switch to down-right movement
         {
-            moveValue = (int)movementMode.DownRight;
+            moveValue = (int)MovementMode.DownRight;
         }
-        if (moveValue == (int)movementMode.UpRight && (pastRight || pastUp))//If moving up-right past right barrier or up barrier, switch to down-left movement
+        if (moveValue == (int)MovementMode.UpRight && (pastRight || pastUp))//If moving up-right past right barrier or up barrier, switch to down-left movement
         {
-            moveValue = (int)movementMode.DownLeft;
+            moveValue = (int)MovementMode.DownLeft;
         }
-        if (moveValue == (int)movementMode.DownLeft && (pastLeft || pastDown))//If moving down-left past left barrier or down barrier, switch to up-right movement
+        if (moveValue == (int)MovementMode.DownLeft && (pastLeft || pastDown))//If moving down-left past left barrier or down barrier, switch to up-right movement
         {
-            moveValue = (int)movementMode.UpRight;
+            moveValue = (int)MovementMode.UpRight;
         }
 
-        if (moveValue == (int)movementMode.DownRight && (pastRight || pastDown))//If moving down-right past right barrier or down barrier, switch to up-left movement
+        if (moveValue == (int)MovementMode.DownRight && (pastRight || pastDown))//If moving down-right past right barrier or down barrier, switch to up-left movement
         {
-            moveValue = (int)movementMode.UpLeft;
+            moveValue = (int)MovementMode.UpLeft;
         }
 
 
@@ -85,32 +92,32 @@ public class KeyRandomMovement : MonoBehaviour
         switch (moveValue)
         {
             //Up
-            case (int)movementMode.Up:
+            case (int)MovementMode.Up:
                 position = this.transform.position;
                 position.y += 0.09f;
                 this.transform.position = position;
                 break;
             //Down
-            case (int)movementMode.Down:
+            case (int)MovementMode.Down:
                 position = this.transform.position;
                 position.y -= 0.09f;
                 this.transform.position = position;
 
                 break;
             //Left
-            case (int)movementMode.Left:
+            case (int)MovementMode.Left:
                 position = this.transform.position;
                 position.x -= 0.09f;
                 this.transform.position = position;
                 break;
             //Right
-            case (int)movementMode.Right:
+            case (int)MovementMode.Right:
                 position = this.transform.position;
                 position.x += 0.09f;
                 this.transform.position = position;
                 break;
             //Up Right
-            case (int)movementMode.UpRight:
+            case (int)MovementMode.UpRight:
                 position = this.transform.position;
                 position.y += 0.09f;
                 this.transform.position = position;
@@ -119,7 +126,7 @@ public class KeyRandomMovement : MonoBehaviour
                 this.transform.position = position;
                 break;
             //Up Left
-            case (int)movementMode.UpLeft:
+            case (int)MovementMode.UpLeft:
                 position = this.transform.position;
                 position.y += 0.09f;
                 this.transform.position = position;
@@ -128,7 +135,7 @@ public class KeyRandomMovement : MonoBehaviour
                 this.transform.position = position;
                 break;
             //Down Left
-            case (int)movementMode.DownLeft:
+            case (int)MovementMode.DownLeft:
                 position = this.transform.position;
                 position.y -= 0.09f;
                 this.transform.position = position;
@@ -137,7 +144,7 @@ public class KeyRandomMovement : MonoBehaviour
                 this.transform.position = position;
                 break;
             //Down Right
-            case (int)movementMode.DownRight:
+            case (int)MovementMode.DownRight:
                 position = this.transform.position;
                 position.y -= 0.09f;
                 this.transform.position = position;

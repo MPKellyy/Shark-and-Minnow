@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/**
+ * Script Name: KeyTrackerOrientation
+ * Team: Mike, Bryant, Caleb
+ * Description: Ensures the key tracker text is always located at the corner of the screen.
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +16,7 @@ public class KeyTrackerOrientation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Makes the text visible.
         this.GetComponent<Renderer>().material.color = Color.black;
     }
 
@@ -21,8 +28,8 @@ public class KeyTrackerOrientation : MonoBehaviour
         if (player != null)
         {
             Vector3 playerPos = player.transform.position;
-            playerPos.x = player.transform.position.x + 8.5f;
-            playerPos.y = player.transform.position.y - 4.5f;
+            playerPos.x = player.transform.position.x + 6.5f;
+            playerPos.y = player.transform.position.y - 4.0f;
             playerPos.z = -5.5f;
 
             this.transform.position = playerPos;

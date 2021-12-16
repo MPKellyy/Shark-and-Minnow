@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/**
+ * Script Name: RandomMovement
+ * Team: Mike, Bryant, Caleb
+ * Description: Script used for random NPC fish movement.
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

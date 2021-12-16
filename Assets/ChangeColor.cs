@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/**
+ * Script Name: ChangeColor
+ * Team: Mike, Bryant, Caleb
+ * Description: Script used to change this fish's color to green when player is larger than this fish
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

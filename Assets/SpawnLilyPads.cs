@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/**
+ * Script Name: SpawnLilyPads
+ * Team: Mike, Bryant, Caleb
+ * Description: Randomly spawns lily pads throughtout the map.
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,7 +35,7 @@ public class SpawnLilyPads : MonoBehaviour
         float y;
         float scale;
 
-        // Spawns as many lily pads as necessary.
+        // Spawns fifteen lily pads.
         for (int i = 0; i < 15; i++)
         {
             locallilypad = Instantiate<GameObject>(lilypad);

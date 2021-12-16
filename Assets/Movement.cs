@@ -1,6 +1,13 @@
-﻿using System.Collections;
+﻿/**
+ * Script Name: Movement
+ * Team: Mike, Bryant, Caleb
+ * Description: Enables player movement via arrows keys on keyboard
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 public class Movement : MonoBehaviour
 {

@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/**
+ * Script Name: SpawnPellets
+ * Team: Mike, Bryant, Caleb
+ * Description: Randomly spawns pellets throughtout the map.
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,12 +16,14 @@ public class SpawnPellets : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < 20; i++)
+        // Initially spawns 50 pellets.
+        for (int i = 0; i < 50; i++)
         {
             Invoke("SpawnPellet", 0.0f);
         }
 
-        Invoke("SpawnPelletContinuous", 3.0f);
+        // Spawns more pellets after the initial batch.
+        Invoke("SpawnPelletContinuous", 1.5f);
     }
 
     // Update is called once per frame

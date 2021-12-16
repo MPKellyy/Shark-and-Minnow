@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/**
+ * Script Name: SpawnNPCFish
+ * Team: Mike, Bryant, Caleb
+ * Description: Randomly spawns NPC fish throughtout the map.
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,11 +16,13 @@ public class SpawnNPCFish : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Initially spawn 10 NPC fish.
         for (int i = 0; i < 10; i++)
         {
             Invoke("SpawnFish", 0.0f);
         }
 
+        // Spawn another NPC fish every 30 seconds.
         Invoke("SpawnFishContinuous", 30.0f);
     }
 
@@ -40,8 +48,17 @@ public class SpawnNPCFish : MonoBehaviour
         x = (x * (30 + 45)) - 45;
         y = (y * (55 + 20)) - 20;
 
-        spawnposition = new Vector3(x, y, 0.0f);
-        localfish.transform.position = spawnposition;
+        // Ensures that the NPC fish does not spawn on player's initial position.
+        if(!(x < 3 && x > -3) && !(y < 7 && y > 1))
+        {
+            spawnposition = new Vector3(x, y, 0.0f);
+            localfish.transform.position = spawnposition;
+        }
+        else
+        {
+            Invoke("SpawnFish", 0.0f);
+        }
+        
     }
 
     // Same as SpawnFish(), but it invokes itself at the end.

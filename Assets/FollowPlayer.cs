@@ -1,10 +1,17 @@
-﻿using System.Collections;
+﻿/**
+ * Script Name: FollowPlayer
+ * Team: Mike, Bryant, Caleb
+ * Description: Script used to keep main camera fixed on player
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
 {
-    GameObject player;
+    GameObject player;//Variable for instance of player object in game space
+    Vector3 playerPos;//Variable for player position coordinates
 
     // Start is called before the first frame update
     void Start()
@@ -17,9 +24,11 @@ public class FollowPlayer : MonoBehaviour
     {
         player = GameObject.Find("Player Fish");
 
-        if(player != null)
+        //If player is alive in game space
+        if (player != null)
         {
-            Vector3 playerPos = player.transform.position;
+            //Set camera to player position with a z axis offset of -10 (zooms camera out)
+            playerPos = player.transform.position;
             playerPos.z = -10.0f;
 
             this.transform.position = playerPos;

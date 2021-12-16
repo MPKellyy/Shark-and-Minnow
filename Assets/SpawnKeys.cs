@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/**
+ * Script Name: SpawnKeys
+ * Team: Mike, Bryant, Caleb
+ * Description: Randomly spawns keys throughtout the map.
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +25,7 @@ public class SpawnKeys : MonoBehaviour
 
     }
 
-    // Spawns a key somewhere on the map.
+    // Spawns keys randomly throughout the map.
     void SpawnKey()
     {
         GameObject localkey;
@@ -27,7 +33,7 @@ public class SpawnKeys : MonoBehaviour
         float x;
         float y;
 
-        // Spawn three keys.
+        // Spawn five keys.
         for (int i = 0; i < 5; i++)
         {
             localkey = Instantiate<GameObject>(key);

@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/**
+ * Script Name: PursuePlayer
+ * Team: Mike, Bryant, Caleb
+ * Description: Script used for shark movement logic. Allows shark to chase player until they are eaten or escape.
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,9 +17,10 @@ public class PursuePlayer : MonoBehaviour
     Vector3 previousPos;//Stores players position in a the previous frame
     bool playerAlive;//Keeps track of if player is still alive in game
     (Vector3, Vector3) playerSave;//Stores player position in Item1, stores player rotation in Item2
-    int varyMovement;//Variable used to randomly affect shark movement speed
     GameObject player;//Used to hold instance of a player object
     int MovementMode;//Decides speed of shark movement, -1 is normal speed, 0 is double speed
+    bool playerMoved;//Keeps track if player has made their first move
+    Vector3 playerStartPos;//Saves player's initial start location
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +43,9 @@ public class PursuePlayer : MonoBehaviour
             playerLocations.Enqueue(playerSave);
         }
 
+        playerMoved = false;
+        player = GameObject.Find("Player Fish");
+        playerStartPos = player.gameObject.transform.position;
     }
 
     // Update is called once per frame
@@ -53,16 +63,22 @@ public class PursuePlayer : MonoBehaviour
             playerSave = (playerPos, player.transform.eulerAngles);
         }
 
+        //Checking if player is making their first move (this initiates shark movement)
+        if (!playerMoved && playerPos != playerStartPos)
+        {
+            playerMoved = true;
+        }
+
 
         //Save the current position only if player is not standing still (keeps shark constantly moving)
-        if(previousPos!=playerPos && playerAlive)
+        if(previousPos!=playerPos && playerAlive && playerMoved)
         {
             playerLocations.Enqueue(playerSave);
         }
 
 
         //While there are still locations to go to and the player is alive
-        if(playerLocations.Count != 0 && playerAlive)
+        if(playerLocations.Count != 0 && playerAlive && playerMoved)
         {
             //Checking if shark is not in double speed (in other words, if its currently in normal speed)
             if(MovementMode != 0)
@@ -74,7 +90,6 @@ public class PursuePlayer : MonoBehaviour
                 if (timeTracker >= timeUntilSwitch)
                 {
                     MovementMode = 0;
-                    print("Double");
                 }
             }
 
@@ -87,9 +102,7 @@ public class PursuePlayer : MonoBehaviour
                     //Garuntees at least one movement per frame
                     playerSave = ((Vector3, Vector3))playerLocations.Dequeue();
 
-
                     //This randomly doubles shark movement per frame. Allows player more time to escape from it, makes movement less robotic
-                    varyMovement = (int)(UnityEngine.Random.value + 0.5f);//0 = double movement, 1 = single pace
 
                     //If queue is not empty and varyMovement wants to double the pace
                     if (playerLocations.Count != 0 && (UnityEngine.Random.value) < 0.10f)
@@ -107,7 +120,6 @@ public class PursuePlayer : MonoBehaviour
                 //Case for normal speed
                 case -1:
                     //This randomly slows shark movement once per frame. Allows player more time to escape from it, makes movement less robotic
-
 
                     //If queue is not empty and varyMovement wants to move one pace
                     if (playerLocations.Count != 0 && (UnityEngine.Random.value) > 0.05f)

@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/**
+ * Script Name: SoundPlayer
+ * Team: Mike, Bryant, Caleb
+ * Description: Script that allows player to consume fish pellets
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

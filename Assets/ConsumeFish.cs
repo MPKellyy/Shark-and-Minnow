@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/**
+ * Script Name: ConsumeFish
+ * Team: Mike, Bryant, Caleb
+ * Description: Script used for player to eat NPC fish. Also allows NPC fish to consume player if they are larger.
+ */
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
